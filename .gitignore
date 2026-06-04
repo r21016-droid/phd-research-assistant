@@ -1,0 +1,14 @@
+# Secrets
+.env
+
+# Python / UV
+.venv/
+__pycache__/
+*.pyc
+
+# Local saved outputs (keep the empty seed, ignore real saves if you prefer)
+# data/library.json
+
+# OS / editor
+.DS_Store
+.streamlit/secrets.toml
