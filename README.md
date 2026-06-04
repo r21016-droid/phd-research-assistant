@@ -17,6 +17,16 @@ Every tab's output can be **saved to a shared local library** (browsable in the
 sidebar). System prompts are tuned for management/business research by default,
 with a sidebar **Field** switch (Management / STEM / Social Sciences / Other).
 
+## Screenshots
+
+**📄 Paper Digest** — upload a PDF and triage it before a deep read:
+
+![Paper Digest tab](docs/screenshots/paper-digest.png)
+
+**🔭 Literature Explorer** — first-pass landscape scan of a topic via Semantic Scholar:
+
+![Literature Explorer tab](docs/screenshots/literature-explorer.png)
+
 ## Setup
 
 This project uses [UV](https://docs.astral.sh/uv/).
@@ -66,8 +76,8 @@ data/library.json # Saved outputs across all tabs
 ## Build status
 
 - [x] **Step A** — Skeleton: 4-tab shell, sidebar, `.env` loading, library I/O
-- [ ] **Step B** — Tab 1: Paper Digest
-- [ ] **Step C** — Tab 3: Thesis Outline Coach
+- [x] **Step B** — Tab 1: Paper Digest
+- [x] **Step C** — Tab 3: Thesis Outline Coach
 - [x] **Step D** — Tab 4: Research Idea Critic
-- [ ] **Step E** — Tab 2: Literature Explorer
-- [ ] **Step F** — Polish: field switcher, library viewer, error handling, screenshots
+- [x] **Step E** — Tab 2: Literature Explorer
+- [x] **Step F** — Polish: field switcher, library viewer, error handling, screenshots
