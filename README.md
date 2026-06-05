@@ -7,6 +7,8 @@ client, one `.env`, and one local library.
 
 Built with Streamlit · LangChain · OpenAI (`gpt-4o-mini`) · Pydantic.
 
+📄 See [`DESIGN.md`](DESIGN.md) for the full design write-up (problem, architecture, and design choices).
+
 ## The four tabs
 
 | Tab | What it does |

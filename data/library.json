@@ -1,1 +1,45 @@
-[]
+[
+  {
+    "id": "1780671445121",
+    "timestamp": "2026-06-05T14:57:25+00:00",
+    "tab": "Paper Digest",
+    "title": "Inventing with Machines: Generative AI and the Evolving Landscape of IS Research",
+    "field": "Management",
+    "payload": {
+      "title": "Inventing with Machines: Generative AI and the Evolving Landscape of IS Research",
+      "authors": "Gopal, R. D., Li, J., Riemer, K., Sarker, S., Singh, P. V., Susarla, A., Bichler, M., & Thatcher, J. B.",
+      "year": "2025",
+      "research_questions": [
+        "How is generative AI reshaping the research processes in information systems (IS)?",
+        "What are the risks and opportunities associated with the integration of AI in scholarly research?",
+        "How can the IS community develop frameworks for responsible AI use in research?"
+      ],
+      "methodology_type": "conceptual",
+      "sample_description": "",
+      "key_findings": [
+        "Generative AI can automate significant portions of the research process, including hypothesis generation and literature synthesis.",
+        "The integration of AI in research poses risks to scholarly integrity, including issues of authorship and the propagation of biases.",
+        "A three-level usage model for AI in research (copy editor, research assistant, super-collaborator) is proposed to guide responsible AI integration."
+      ],
+      "theoretical_contributions": [
+        "The concept of 'automation of invention' is introduced, highlighting the capabilities of AI in enhancing research productivity.",
+        "A framework for responsible AI use in research is developed, emphasizing transparency, provenance, and verification.",
+        "The editorial discusses the implications of AI for the identity and methodological diversity of IS research."
+      ],
+      "limitations_acknowledged": [
+        "The authors acknowledge the potential for AI to undermine scholarly integrity and the need for human oversight in research processes."
+      ],
+      "limitations_unacknowledged": [
+        "The paper does not address the potential for AI to exacerbate inequalities in research capabilities among institutions and researchers.",
+        "It overlooks the long-term implications of AI on the labor market for researchers, particularly in terms of job displacement."
+      ],
+      "fit_with_thesis": "",
+      "follow_up_questions": [
+        "What specific measures can be implemented to ensure the integrity of AI-assisted research?",
+        "How can the IS community balance innovation with the preservation of scholarly values?",
+        "What future research is needed to explore the long-term impacts of AI on academic publishing and peer review processes?"
+      ],
+      "apa_citation": "Gopal, R. D., Li, J., Riemer, K., Sarker, S., Singh, P. V., Susarla, A., Bichler, M., & Thatcher, J. B. (2025). Inventing with machines: Generative AI and the evolving landscape of IS research. *Information Systems Research, 36*(4), 1949-1967. https://doi.org/10.1287/isre.2025.editorial.v36.n4"
+    }
+  }
+]
