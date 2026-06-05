@@ -1,8 +1,11 @@
 # 🎓 Research Assistant
 
-A multi-tab Streamlit app giving a researcher four AI companions for the most
-common parts of the research lifecycle. Built with Streamlit + LangChain +
-OpenAI (`gpt-4o-mini`). Week 1 deliverable for an AI agents course.
+A multi-tab Streamlit app that gives a researcher four AI companions for the
+most common parts of the research lifecycle — **reading papers, scouting
+literature, planning a thesis, and stress-testing ideas** — all sharing one LLM
+client, one `.env`, and one local library.
+
+Built with Streamlit · LangChain · OpenAI (`gpt-4o-mini`) · Pydantic.
 
 ## The four tabs
 
@@ -54,9 +57,21 @@ The app opens at http://localhost:8501.
 | Variable | Required | Purpose |
 |---|---|---|
 | `OPENAI_API_KEY` | ✅ | LLM calls (all tabs). |
-| `SEMANTIC_SCHOLAR_API_KEY` | optional | Raises Tab 2 rate limits. Keyless works too. |
+| `SEMANTIC_SCHOLAR_API_KEY` | optional | Raises Tab 2 rate limits. The keyless public tier works too. |
 
 Change the model in one place: `MODEL_NAME` in `utils.py`.
+
+## Tech stack
+
+| Layer | Choice |
+|---|---|
+| UI | Streamlit (multi-tab via `st.tabs`) |
+| LLM | OpenAI `gpt-4o-mini` via LangChain |
+| Structured output | Pydantic models (one per tab) |
+| PDF parsing | pypdf |
+| Literature search | Semantic Scholar Graph API |
+| Storage | Local JSON file |
+| Packaging | UV (`pyproject.toml` + `uv.lock`) |
 
 ## Project structure
 
@@ -73,11 +88,18 @@ utils.py          # LLM factory, PDF parsing, library save/load
 data/library.json # Saved outputs across all tabs
 ```
 
-## Build status
+## How it works
 
-- [x] **Step A** — Skeleton: 4-tab shell, sidebar, `.env` loading, library I/O
-- [x] **Step B** — Tab 1: Paper Digest
-- [x] **Step C** — Tab 3: Thesis Outline Coach
-- [x] **Step D** — Tab 4: Research Idea Critic
-- [x] **Step E** — Tab 2: Literature Explorer
-- [x] **Step F** — Polish: field switcher, library viewer, error handling, screenshots
+Each tab shares the same skeleton — only the **input**, the **system prompt**
+(`prompts.py`), and the **output schema** (`schemas.py`) differ. A tab collects
+input, calls the shared LLM client with a Pydantic schema for reliable
+structured output, renders the result as clean markdown, and offers a one-click
+**Save to library**. Literature Explorer adds a real Semantic Scholar lookup so
+the LLM summarizes *actual* papers rather than inventing references.
+
+## What's next
+
+- **Multi-paper Q&A across the library** (RAG)
+- **Automatic literature cross-referencing** between saved entries
+- **Scheduled arXiv / Semantic Scholar imports** on a topic watchlist
+- **Full-text PDF retrieval** for papers found in the Literature Explorer
