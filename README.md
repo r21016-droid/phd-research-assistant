@@ -1,15 +1,16 @@
 # 🎓 Research Assistant
 
-A multi-tab Streamlit app that gives a researcher four AI companions for the
+A multi-tab Streamlit app that gives a researcher **five AI companions** for the
 most common parts of the research lifecycle — **reading papers, scouting
-literature, planning a thesis, and stress-testing ideas** — all sharing one LLM
-client, one `.env`, and one local library.
+literature, planning a thesis, stress-testing ideas, and chatting with a Zotero
+library via RAG** — all sharing one LLM client, one `.env`, and one local library.
 
-Built with Streamlit · LangChain · OpenAI (`gpt-4o-mini`) · Pydantic.
+Built with Streamlit · LangChain · LangGraph · OpenAI (`gpt-4o-mini`) · Pinecone · Pydantic.
 
 📄 See [`DESIGN.md`](DESIGN.md) for the full design write-up (problem, architecture, and design choices).
+🔌 See [`ZOTERO_PINECONE_SETUP.md`](ZOTERO_PINECONE_SETUP.md) for Pinecone + Zotero credential setup (Tab 5).
 
-## The four tabs
+## The five tabs
 
 | Tab | What it does |
 |---|---|
@@ -17,6 +18,7 @@ Built with Streamlit · LangChain · OpenAI (`gpt-4o-mini`) · Pydantic.
 | **🔭 Literature Explorer** | Enter a topic → 8–10 recent papers (title, authors, year, summarized abstract) from Semantic Scholar, plus a synthesis: dominant themes, methodological trends, 3 open gaps. |
 | **🧭 Thesis Outline Coach** | Topic + field + methodology + timeline → chapter-by-chapter outline, per-chapter research questions, suggested methods, milestone timeline, seed citations. |
 | **🧪 Research Idea Critic** | Paste an idea/abstract → novelty score (1–10) with reasoning, related work, methodological concerns, suggested improvements, sharpening questions. |
+| **📚 Zotero Chat** *(Week 2 RAG)* | Pick a Zotero collection → app downloads PDFs, chunks, embeds (`text-embedding-3-small`), stores in Pinecone, runs a LangGraph 2-node RAG pipeline (retrieve → generate) with inline citations. |
 
 Every tab's output can be **saved to a shared local library** (browsable in the
 sidebar). System prompts are tuned for management/business research by default,
@@ -58,8 +60,13 @@ The app opens at http://localhost:8501.
 
 | Variable | Required | Purpose |
 |---|---|---|
-| `OPENAI_API_KEY` | ✅ | LLM calls (all tabs). |
+| `OPENAI_API_KEY` | ✅ | LLM calls + embeddings (all tabs). |
 | `SEMANTIC_SCHOLAR_API_KEY` | optional | Raises Tab 2 rate limits. The keyless public tier works too. |
+| `PINECONE_API_KEY` | ✅ for Tab 5 | Vector storage for Zotero Chat RAG. |
+| `ZOTERO_USER_ID` | ✅ for Tab 5 | Your numeric Zotero user ID (from settings/keys). |
+| `ZOTERO_API_KEY` | ✅ for Tab 5 | Personal Zotero API key with library read permission. |
+
+See [`ZOTERO_PINECONE_SETUP.md`](ZOTERO_PINECONE_SETUP.md) for step-by-step instructions on the three Tab 5 keys.
 
 Change the model in one place: `MODEL_NAME` in `utils.py`.
 
@@ -69,6 +76,10 @@ Change the model in one place: `MODEL_NAME` in `utils.py`.
 |---|---|
 | UI | Streamlit (multi-tab via `st.tabs`) |
 | LLM | OpenAI `gpt-4o-mini` via LangChain |
+| Agent orchestration (Tab 5) | LangGraph (2-node graph: retrieve → generate) |
+| Embeddings (Tab 5) | OpenAI `text-embedding-3-small` (1536 dims) |
+| Vector DB (Tab 5) | Pinecone serverless (AWS us-east-1, cosine) |
+| Reference manager (Tab 5) | Zotero Web API via `pyzotero` |
 | Structured output | Pydantic models (one per tab) |
 | PDF parsing | pypdf |
 | Literature search | Semantic Scholar Graph API |
@@ -84,6 +95,9 @@ tabs/
   lit_explorer.py # Tab 2
   thesis_coach.py # Tab 3
   idea_critic.py  # Tab 4
+  zotero_chat.py  # Tab 5 — Week 2 RAG
+rag.py            # LangGraph pipeline + Pinecone helpers (Tab 5)
+zotero_lib.py     # Zotero API wrapper + PDF chunking (Tab 5)
 prompts.py        # All system prompts (field-tuned)
 schemas.py        # All Pydantic output models
 utils.py          # LLM factory, PDF parsing, library save/load
@@ -101,7 +115,9 @@ the LLM summarizes *actual* papers rather than inventing references.
 
 ## What's next
 
-- **Multi-paper Q&A across the library** (RAG)
-- **Automatic literature cross-referencing** between saved entries
+- **Hybrid retrieval** in Zotero Chat (BM25 + vector + reciprocal rank fusion)
+- **Re-ranking** with Cohere or a cross-encoder
+- **Metadata filtering** by paper / year / venue before retrieval
+- **Eval harness** with RAGAS or LangSmith for retrieval + generation metrics
+- **Automatic literature cross-referencing** between Tab 5 answers and Tabs 1–4 outputs
 - **Scheduled arXiv / Semantic Scholar imports** on a topic watchlist
-- **Full-text PDF retrieval** for papers found in the Literature Explorer
